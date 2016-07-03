@@ -14,7 +14,7 @@ require('../config/passport')(passport); // pass passport for configuration
 var modelsSocks = require('../app/models/socks');
 
 // route to a restricted info (GET http://localhost:8080/api/getsocks?country=&number=)
-router.get('/', passport.authenticate('jwt', {
+router.post('/', passport.authenticate('jwt', {
     session: false
 }), function(req, res, next) {
     var decoded = jwt.decode(getToken(req.headers), config.secret);
@@ -30,8 +30,8 @@ router.get('/', passport.authenticate('jwt', {
             });
         } else {
             var country, number;
-            country = req.query.country.toUpperCase();
-            number = parseInt(req.query.number || 10);
+            country = req.body.country.toUpperCase();
+            number = parseInt(req.body.number || 10);
 
             if (country == null || country == '') {
                 res.json({
