@@ -5,15 +5,15 @@ var config = require('../config/database'), // get db config file
     router = express.Router();
 
 // route to authenticate a user (GET http://localhost:8080/api/login?username=&password=)
-router.get('/', function(req, res) {
-    if (!req.query.username || !req.query.password) {
+router.post('/', function(req, res) {
+    if (!req.body.username || !req.body.password) {
         res.json({
             success: false,
             msg: 'Please pass name and password.'
         });
     } else {
         User.findOne({
-            username: req.query.username
+            username: req.body.username
         }, function(err, user) {
             if (err) throw err;
 
@@ -24,7 +24,7 @@ router.get('/', function(req, res) {
                 });
             } else {
                 // check if password matches
-                user.comparePassword(req.query.password, function(err, isMatch) {
+                user.comparePassword(req.body.password, function(err, isMatch) {
                     if (isMatch && !err) {
                         // if user is found and password is right create a token
                         var token = jwt.encode(user, config.secret);

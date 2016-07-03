@@ -1,4 +1,4 @@
 module.exports = {
     'secret': 'TodayYou-TomorrowOur',
-    'database': 'mongodb://localhost/YoloTEAM-SSHPrivateServer'
+    'database': 'mongodb://privatesshmanager:privatesshmanager@ds013545.mlab.com:13545/privatesshserver'
 };
