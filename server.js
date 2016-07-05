@@ -9,7 +9,8 @@ var express = require('express'),
     mongoose = require('mongoose'),
     passport = require('passport'),
     config = require('./config/database'), // get db config file
-    port = process.env.PORT || 8080,
+    server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080,
+    server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
     jwt = require('jwt-simple');
 
 // routing
@@ -19,6 +20,9 @@ var signup = require('./routes/signup'),
     upload = require('./routes/upload'),
     socks = require('./routes/socks'),
     getsocks_api = require('./routes/socks_api');
+
+var fs = require('fs');
+fs.existsSync('./uploads') || fs.mkdirSync('./uploads');
 
 app.use(bodyParser.json());
 // get our request parameters
@@ -33,7 +37,7 @@ app.use(passport.initialize());
 
 // demo Route (GET http://localhost:8080)
 app.get('/', function(req, res) {
-    res.send('Hello! The API is at http://localhost:' + port + '/api');
+    res.sendFile(__dirname + '/views/index.html');
 });
 
 // connect to database
@@ -79,6 +83,6 @@ app.use('/getsocks', socks);
 // -----
 
 // Start the server
-app.listen(port, function() {
-    console.log('Listening on port: http://localhost:' + port);
+app.listen(server_port, server_ip_address, function() {
+    console.log('Listening on port: http://' + server_ip_address + ":" + server_port);
 });
