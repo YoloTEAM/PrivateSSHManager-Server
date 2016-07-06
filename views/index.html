@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>PrivateSshManager-SignUp</title>
+    <title>SignUp</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
@@ -9,26 +9,95 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <script>
+        function myFunction() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var re_password = document.getElementById("re-password").value;
+
+            if (!username || !password || !re_password) {
+                document.getElementById("username").style.borderColor = "#E34234";
+                document.getElementById("password").style.borderColor = "#E34234";
+                document.getElementById("re-password").style.borderColor = "#E34234";
+            } else {
+                if (password != re_password) {
+                    //alert("Passwords Do not match");
+                    document.getElementById("username").style.borderColor = "#555";
+                    document.getElementById("password").style.borderColor = "#E34234";
+                    document.getElementById("re-password").style.borderColor = "#E34234";
+                } else {
+                    document.getElementById("regform").submit();
+                }
+            }
+        }
+    </script>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid #e7e7e7;
+            background-color: #f3f3f3;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: #666;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a.active {
+            color: white;
+            background-color: #4CAF50;
+        }
+    </style>
 </head>
 
-<body>
-    <div class="container">
-        <label>Create New User</label>
-        <form action="/api/signup" method="POST" enctype="application/x-www-form-urlencoded">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" class="form-control" id="username" name="username">
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form>
+<body contenteditable="false">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-brand" href="#">PrivateSshManager</div>
+            <ul>
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/upload">Upload Socks</a></li>
+                <li><a href="/getSocks">Get Random Socks</a></li>
+                <li><a href="/getSocks/ResetSocks">Reset Socks</a></li>
+                <li><a href="/getSocks/totalSocksUnUsed">Get Total Socks UnUsed</a></li>
+            </ul>
+        </div>
+    </nav>
 
-        <li><a href="/upload">Upload Socks</a></li>
-        <li><a href="/getSocks/ResetSocks">Reset Socks</a></li>
-        <li><a href="/getSocks/totalSocksUnUsed">Get Total Socks UnUsed</a></li>
+    <div style="margin-top:60px" class="container ng-scope">
+        <div>
+            <h2>Create new account</h2>
+        </div>
+        <div>
+            <form id='regform' action="/api/signup" method="post" enctype="application/x-www-form-urlencoded" novalidate>
+                <p>
+                    <label>Username (required)</label>
+                    <input type="text" class="form-control" id="username" required="required" name="username">
+                </p>
+                <p>
+                    <label>Password (required)</label>
+                    <input type="password" class="form-control" id="password" required="required" name="password">
+                </p>
+                <p>
+                    <label>Password again (required)</label>
+                    <input type="password" class="form-control" id="re-password" required="required">
+                </p>
+            </form>
+            <p>
+                <button style="margin-top:20px" class="btn btn-default" onclick="myFunction()">Submit</button>
+            </p>
+        </div>
     </div>
 </body>
 

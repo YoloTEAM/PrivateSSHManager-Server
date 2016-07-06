@@ -8,253 +8,25 @@ var passport = require('passport'),
     jwt = require('jwt-simple'),
     User = require('../app/models/user'), // get the mongoose model
     express = require('express'),
-    router = express.Router();
+    router = express.Router(),
+    modelsSocks = require('../app/models/socks');
 
-var aCountry = [
-    ['AF', 0],
-    ['AL', 0],
-    ['DZ', 0],
-    ['AS', 0],
-    ['AD', 0],
-    ['AO', 0],
-    ['AI', 0],
-    ['AQ', 0],
-    ['AG', 0],
-    ['AR', 0],
-    ['AM', 0],
-    ['AW', 0],
-    ['AU', 0],
-    ['AT', 0],
-    ['AZ', 0],
-    ['BS', 0],
-    ['BH', 0],
-    ['BD', 0],
-    ['BB', 0],
-    ['BY', 0],
-    ['BE', 0],
-    ['BZ', 0],
-    ['BJ', 0],
-    ['BM', 0],
-    ['BT', 0],
-    ['BO', 0],
-    ['BA', 0],
-    ['BW', 0],
-    ['BR', 0],
-    ['IO', 0],
-    ['VG', 0],
-    ['BN', 0],
-    ['BG', 0],
-    ['BF', 0],
-    ['BI', 0],
-    ['KH', 0],
-    ['CM', 0],
-    ['CA', 0],
-    ['CV', 0],
-    ['KY', 0],
-    ['CF', 0],
-    ['TD', 0],
-    ['CL', 0],
-    ['CN', 0],
-    ['CX', 0],
-    ['CC', 0],
-    ['CO', 0],
-    ['KM', 0],
-    ['CK', 0],
-    ['CR', 0],
-    ['HR', 0],
-    ['CU', 0],
-    ['CW', 0],
-    ['CY', 0],
-    ['CZ', 0],
-    ['CD', 0],
-    ['DK', 0],
-    ['DJ', 0],
-    ['DM', 0],
-    ['DO', 0],
-    ['TL', 0],
-    ['EC', 0],
-    ['EG', 0],
-    ['SV', 0],
-    ['GQ', 0],
-    ['ER', 0],
-    ['EE', 0],
-    ['ET', 0],
-    ['FK', 0],
-    ['FO', 0],
-    ['FJ', 0],
-    ['FI', 0],
-    ['FR', 0],
-    ['PF', 0],
-    ['GA', 0],
-    ['GM', 0],
-    ['GE', 0],
-    ['DE', 0],
-    ['GH', 0],
-    ['GI', 0],
-    ['GR', 0],
-    ['GL', 0],
-    ['GD', 0],
-    ['GU', 0],
-    ['GT', 0],
-    ['GG', 0],
-    ['GN', 0],
-    ['GW', 0],
-    ['GY', 0],
-    ['HT', 0],
-    ['HN', 0],
-    ['HK', 0],
-    ['HU', 0],
-    ['IS', 0],
-    ['IN', 0],
-    ['ID', 0],
-    ['IR', 0],
-    ['IQ', 0],
-    ['IE', 0],
-    ['IM', 0],
-    ['IL', 0],
-    ['IT', 0],
-    ['CI', 0],
-    ['JM', 0],
-    ['JP', 0],
-    ['JE', 0],
-    ['JO', 0],
-    ['KZ', 0],
-    ['KE', 0],
-    ['KI', 0],
-    ['XK', 0],
-    ['KW', 0],
-    ['KG', 0],
-    ['LA', 0],
-    ['LV', 0],
-    ['LB', 0],
-    ['LS', 0],
-    ['LR', 0],
-    ['LY', 0],
-    ['LI', 0],
-    ['LT', 0],
-    ['LU', 0],
-    ['MO', 0],
-    ['MK', 0],
-    ['MG', 0],
-    ['MW', 0],
-    ['MY', 0],
-    ['MV', 0],
-    ['ML', 0],
-    ['MT', 0],
-    ['MH', 0],
-    ['MR', 0],
-    ['MU', 0],
-    ['YT', 0],
-    ['MX', 0],
-    ['FM', 0],
-    ['MD', 0],
-    ['MC', 0],
-    ['MN', 0],
-    ['ME', 0],
-    ['MS', 0],
-    ['MA', 0],
-    ['MZ', 0],
-    ['MM', 0],
-    ['NA', 0],
-    ['NR', 0],
-    ['NP', 0],
-    ['NL', 0],
-    ['AN', 0],
-    ['NC', 0],
-    ['NZ', 0],
-    ['NI', 0],
-    ['NE', 0],
-    ['NG', 0],
-    ['NU', 0],
-    ['KP', 0],
-    ['MP', 0],
-    ['NO', 0],
-    ['OM', 0],
-    ['PK', 0],
-    ['PW', 0],
-    ['PS', 0],
-    ['PA', 0],
-    ['PG', 0],
-    ['PY', 0],
-    ['PE', 0],
-    ['PH', 0],
-    ['PN', 0],
-    ['PL', 0],
-    ['PT', 0],
-    ['PR', 0],
-    ['QA', 0],
-    ['CG', 0],
-    ['RE', 0],
-    ['RO', 0],
-    ['RU', 0],
-    ['RW', 0],
-    ['BL', 0],
-    ['SH', 0],
-    ['KN', 0],
-    ['LC', 0],
-    ['MF', 0],
-    ['PM', 0],
-    ['VC', 0],
-    ['WS', 0],
-    ['SM', 0],
-    ['ST', 0],
-    ['SA', 0],
-    ['SN', 0],
-    ['RS', 0],
-    ['SC', 0],
-    ['SL', 0],
-    ['SG', 0],
-    ['SX', 0],
-    ['SK', 0],
-    ['SI', 0],
-    ['SB', 0],
-    ['SO', 0],
-    ['ZA', 0],
-    ['KR', 0],
-    ['SS', 0],
-    ['ES', 0],
-    ['LK', 0],
-    ['SD', 0],
-    ['SR', 0],
-    ['SJ', 0],
-    ['SZ', 0],
-    ['SE', 0],
-    ['CH', 0],
-    ['SY', 0],
-    ['TW', 0],
-    ['TJ', 0],
-    ['TZ', 0],
-    ['TH', 0],
-    ['TG', 0],
-    ['TK', 0],
-    ['TO', 0],
-    ['TT', 0],
-    ['TN', 0],
-    ['TR', 0],
-    ['TM', 0],
-    ['TC', 0],
-    ['TV', 0],
-    ['VI', 0],
-    ['UG', 0],
-    ['UA', 0],
-    ['AE', 0],
-    ['GB', 0],
-    ['US', 0],
-    ['UY', 0],
-    ['UZ', 0],
-    ['VU', 0],
-    ['VA', 0],
-    ['VE', 0],
-    ['VN', 0],
-    ['WF', 0],
-    ['EH', 0],
-    ['YE', 0],
-    ['ZM', 0],
-    ['ZW', 0]
+var countryIsoCodes = ['AF', 'AL', 'DZ', 'AS', 'AD', 'AO', 'AI', 'AQ', 'AG', 'AR', 'AM', 'AW', 'AU', 'AT', 'AZ', 'BS',
+    'BH', 'BD', 'BB', 'BY', 'BE', 'BZ', 'BJ', 'BM', 'BT', 'BO', 'BA', 'BW', 'BR', 'IO', 'VG', 'BN', 'BG', 'BF', 'BI',
+    'KH', 'CM', 'CA', 'CV', 'KY', 'CF', 'TD', 'CL', 'CN', 'CX', 'CC', 'CO', 'KM', 'CK', 'CR', 'HR', 'CU', 'CW', 'CY',
+    'CZ', 'CD', 'DK', 'DJ', 'DM', 'DO', 'TL', 'EC', 'EG', 'SV', 'GQ', 'ER', 'EE', 'ET', 'FK', 'FO', 'FJ', 'FI', 'FR',
+    'PF', 'GA', 'GM', 'GE', 'DE', 'GH', 'GI', 'GR', 'GL', 'GD', 'GU', 'GT', 'GG', 'GN', 'GW', 'GY', 'HT', 'HN', 'HK',
+    'HU', 'IS', 'IN', 'ID', 'IR', 'IQ', 'IE', 'IM', 'IL', 'IT', 'CI', 'JM', 'JP', 'JE', 'JO', 'KZ', 'KE', 'KI', 'XK',
+    'KW', 'KG', 'LA', 'LV', 'LB', 'LS', 'LR', 'LY', 'LI', 'LT', 'LU', 'MO', 'MK', 'MG', 'MW', 'MY', 'MV', 'ML', 'MT',
+    'MH', 'MR', 'MU', 'YT', 'MX', 'FM', 'MD', 'MC', 'MN', 'ME', 'MS', 'MA', 'MZ', 'MM', 'NA', 'NR', 'NP', 'NL', 'AN',
+    'NC', 'NZ', 'NI', 'NE', 'NG', 'NU', 'KP', 'MP', 'NO', 'OM', 'PK', 'PW', 'PS', 'PA', 'PG', 'PY', 'PE', 'PH', 'PN',
+    'PL', 'PT', 'PR', 'QA', 'CG', 'RE', 'RO', 'RU', 'RW', 'BL', 'SH', 'KN', 'LC', 'MF', 'PM', 'VC', 'WS', 'SM', 'ST',
+    'SA', 'SN', 'RS', 'SC', 'SL', 'SG', 'SX', 'SK', 'SI', 'SB', 'SO', 'ZA', 'KR', 'SS', 'ES', 'LK', 'SD', 'SR', 'SJ',
+    'SZ', 'SE', 'CH', 'SY', 'TW', 'TJ', 'TZ', 'TH', 'TG', 'TK', 'TO', 'TT', 'TN', 'TR', 'TM', 'TC', 'TV', 'VI', 'UG',
+    'UA', 'AE', 'GB', 'US', 'UY', 'UZ', 'VU', 'VA', 'VE', 'VN', 'WF', 'EH', 'YE', 'ZM', 'ZW'
 ];
 
 require('../config/passport')(passport); // pass passport for configuration
-var modelsSocks = require('../app/models/socks');
 
 // route to a restricted info (GET http://localhost:8080/api/getsocks?country=&number=)
 router.post('/', passport.authenticate('jwt', {
@@ -299,30 +71,35 @@ router.get('/', passport.authenticate('jwt', {
                 msg: 'User not found.'
             });
         } else {
-            if (!req.query.country) {
-                return res.send('0');
-            }
-
             try {
-                getTotalSocksUnUsed(req.query.country)
-                    .then(function(count) {
-                        res.send(count.toString());
+                getTotalSocksUnUsed()
+                    .then(function(result) {
+                        res.send(result);
                     }, function(error) {
-                        res.send('0');
+                        res.send('x01');
                     });
             } catch (e) {
-                res.send('0');
+                res.send('x02');
             }
         }
     });
 });
 
-function getTotalSocksUnUsed(country) {
+function getTotalSocksUnUsed() {
     var deferred = Q.defer();
-    var Socks = getModelSocksByCountry(country);
-    Socks.countNotUsed(function(err, count) {
-        if (err) deferred.reject(err);
-        deferred.resolve(count);
+    var promises = [];
+    for (var i = 0; i < countryIsoCodes.length; i++) {
+        var promise = modelsSocks[countryIsoCodes[i]].countNotUsed();
+        promises.push(promise);
+    }
+    Q.all(promises).then(function(response) {
+        var result = {};
+        for (var i = 0; i < countryIsoCodes.length; i++) {
+            result[countryIsoCodes[i]] = response[i] + ',';
+        }
+        deferred.resolve(result);
+    }, function(error) {
+        deferred.reject(error);
     });
     return deferred.promise;
 }
