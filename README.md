@@ -1,6 +1,7 @@
 # PrivateSSHManager
 
 Uploads/Pull Socks to MongoDB using RestAPI Server with NodeJS Awesome!
+Download AutoIt Client (source-included): https://github.com/YoloTEAM/PrivateSshManager-Client/releases
 
 ## PrivateSSHManager Beta 1.0.0.0 is Realse!
 
@@ -8,9 +9,6 @@ Uploads/Pull Socks to MongoDB using RestAPI Server with NodeJS Awesome!
 + ClientChanger automatic pull socks from server and connect via BitviseSSH
 
 ## PrivateSSHManager Online 1.0.1 is Realse!
-
-Preview: https://yoloteam.github.io/PrivateSshManager-Server/
-Download AutoIt Client (source-included): https://github.com/YoloTEAM/PrivateSshManager-Client/releases
 
 #### Config Database
 1. Create mlab account at: https://mlab.com
