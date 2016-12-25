@@ -1,5 +1,4 @@
 module.exports = {
-    'secret': 'TodayYou-TomorrowOur',
-      'database': 'mongodb://localhost/YoloTEAM-PrivateSshServer'
-    //'database': process.env.OPENSHIFT_MONGODB_DB_URL + 'privsshserver'
+	'secret': 'https://yoloteam.org/',
+	'database': 'mongodb://<dbuser>:<dbpassword>@<ds>.mlab.com:45128/<dbname>'
 };

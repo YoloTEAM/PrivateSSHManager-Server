@@ -9,8 +9,8 @@ var express = require('express'),
     mongoose = require('mongoose'),
     passport = require('passport'),
     config = require('./config/database'), // get db config file
-    server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080,
-    server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
+    server_port = process.env.PORT || 8080,
+    server_ip_address = process.env.IP || '0.0.0.0',
     jwt = require('jwt-simple');
 
 // routing
